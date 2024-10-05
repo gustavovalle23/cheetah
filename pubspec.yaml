@@ -1,0 +1,13 @@
+name: cheetah
+description: A micro-framework like Express.js or Koa.js for Dart backend development.
+version: 0.0.1
+repository: https://github.com/gustavovalle23/cheetah
+
+environment:
+  sdk: ^3.5.2
+
+dependencies:
+
+dev_dependencies:
+  lints: ^4.0.0
+  test: ^1.24.0
