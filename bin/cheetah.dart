@@ -25,6 +25,13 @@ void main() async {
       ..close();
   });
 
+  app.get('/users/:id', (req, res) async {
+    final params = req.response.headers.value('X-Params');
+    res
+      ..write('User ID: $params')
+      ..close();
+  });
+
   app.setErrorHandler((req, res) async {
     res
       ..statusCode = 500

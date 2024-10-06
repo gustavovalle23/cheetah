@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+
+import 'package:cheetah/middleware.dart';
 import 'package:cheetah/router.dart';
 import 'package:cheetah/types.dart';
-
-import 'middleware.dart';
 
 class RequestHandler {
   final List<Route?> _routes = [];
@@ -25,12 +25,15 @@ class RequestHandler {
       final method = request.method;
 
       final route = _routes.firstWhere(
-        (r) => r?.path == path && r?.method == method,
+        (r) => r?.matches(path) == true && r?.method == method,
         orElse: () => null,
       );
 
       if (route != null) {
         await _middlewareManager.execute(request, request.response);
+
+        final params = route.extractParams(path);
+        request.response.headers.add('X-Params', params.toString());
 
         await route.handler(request, request.response);
       } else {
