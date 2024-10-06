@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:collection/collection.dart';
 
 import 'package:cheetah/types.dart';
 import 'package:cheetah/router.dart';
 import 'package:cheetah/middleware.dart';
 
 class RequestHandler {
-  final List<Route?> _routes = [];
+  final List<Route> _routes = [];
   final MiddlewareManager _middlewareManager = MiddlewareManager();
 
   Middleware? _errorHandler;
@@ -26,9 +27,8 @@ class RequestHandler {
 
       final queryParams = request.uri.queryParameters;
 
-      final route = _routes.firstWhere(
-        (r) => r?.matches(path) == true && r?.method == method,
-        orElse: () => null,
+      Route? route = _routes.firstWhereOrNull(
+        (r) => r.matches(path) && r.method == method,
       );
 
       if (route != null) {
