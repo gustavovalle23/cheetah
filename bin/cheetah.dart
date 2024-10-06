@@ -47,5 +47,5 @@ void main() async {
       ..close();
   });
 
-  await app.listen();
+  await app.listen(enableHotReload: true);
 }
