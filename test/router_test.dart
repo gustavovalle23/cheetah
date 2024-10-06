@@ -1,11 +1,11 @@
 import 'dart:io';
-
-import 'package:cheetah/router.dart';
 import 'package:test/test.dart';
+import 'package:cheetah/router.dart';
 
 void main() {
   Future<void> dummyHandler(
-      HttpRequest req, HttpResponse res, Future<void> Function() next) async {
+      HttpRequest req, HttpResponse res, Future<void> Function() next,
+      [Map<String, String>? queryParams]) async {
     await next();
   }
 

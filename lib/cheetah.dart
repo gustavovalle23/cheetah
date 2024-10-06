@@ -1,8 +1,8 @@
-import 'dart:async';
 import 'dart:io';
+import 'dart:async';
 
-import 'package:cheetah/handler.dart';
 import 'package:cheetah/types.dart';
+import 'package:cheetah/handler.dart';
 
 class Cheetah {
   final RequestHandler _requestHandler = RequestHandler();

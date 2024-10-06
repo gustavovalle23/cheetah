@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'dart:io';
+import 'dart:async';
 
-import 'package:cheetah/middleware.dart';
-import 'package:cheetah/router.dart';
 import 'package:cheetah/types.dart';
+import 'package:cheetah/router.dart';
+import 'package:cheetah/middleware.dart';
 
 class RequestHandler {
   final List<Route?> _routes = [];
@@ -24,6 +24,8 @@ class RequestHandler {
       final path = request.uri.path;
       final method = request.method;
 
+      final queryParams = request.uri.queryParameters;
+
       final route = _routes.firstWhere(
         (r) => r?.matches(path) == true && r?.method == method,
         orElse: () => null,
@@ -35,7 +37,8 @@ class RequestHandler {
         final params = route.extractParams(path);
         request.response.headers.add('X-Params', params.toString());
 
-        await route.handler(request, request.response, () async {});
+        await route.handler(
+            request, request.response, () async {}, queryParams);
       } else {
         request.response
           ..statusCode = HttpStatus.notFound
