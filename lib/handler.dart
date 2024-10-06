@@ -35,7 +35,7 @@ class RequestHandler {
         final params = route.extractParams(path);
         request.response.headers.add('X-Params', params.toString());
 
-        await route.handler(request, request.response);
+        await route.handler(request, request.response, () async {});
       } else {
         request.response
           ..statusCode = HttpStatus.notFound
@@ -44,7 +44,7 @@ class RequestHandler {
       }
     } catch (e) {
       if (_errorHandler != null) {
-        await _errorHandler!(request, request.response);
+        await _errorHandler!(request, request.response, () async {});
       } else {
         request.response
           ..statusCode = HttpStatus.internalServerError
