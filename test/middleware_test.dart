@@ -1,8 +1,7 @@
-import 'package:cheetah/middleware.dart';
-import 'package:mockito/mockito.dart';
 import 'dart:io';
-
 import 'package:test/test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:cheetah/middleware.dart';
 
 class MockHttpRequest extends Mock implements HttpRequest {}
 
@@ -26,7 +25,8 @@ void main() {
       final res = MockHttpResponse();
 
       bool middlewareCalled = false;
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         middlewareCalled = true;
         await next();
       });
@@ -42,12 +42,14 @@ void main() {
 
       List<String> executedMiddlewares = [];
 
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         executedMiddlewares.add('middleware1');
         await next();
       });
 
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         executedMiddlewares.add('middleware2');
         await next();
       });
@@ -63,11 +65,13 @@ void main() {
 
       List<String> executedMiddlewares = [];
 
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         executedMiddlewares.add('middleware1');
       });
 
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         executedMiddlewares.add('middleware2');
         await next();
       });
@@ -83,13 +87,15 @@ void main() {
 
       List<String> executedMiddlewares = [];
 
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         executedMiddlewares.add('middleware1');
         await next();
         await next();
       });
 
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         executedMiddlewares.add('middleware2');
         await next();
       });
@@ -105,12 +111,14 @@ void main() {
 
       List<String> executedMiddlewares = [];
 
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         executedMiddlewares.add('middleware1');
         throw Exception('Error in middleware');
       });
 
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         executedMiddlewares.add('middleware2');
         await next();
       });
@@ -130,13 +138,15 @@ void main() {
 
       List<String> executedMiddlewares = [];
 
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         executedMiddlewares.add('middleware1');
         await Future.delayed(Duration(milliseconds: 100));
         await next();
       });
 
-      middlewareManager.use((req, res, next) async {
+      middlewareManager
+          .use((req, res, next, [Map<String, String>? queryParams]) async {
         executedMiddlewares.add('middleware2');
         await next();
       });
