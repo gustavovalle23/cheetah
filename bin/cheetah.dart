@@ -1,7 +1,35 @@
+import 'dart:io';
+
 import 'package:cheetah/cheetah.dart';
+import 'package:cheetah/decorators/controller.dart';
+import 'package:cheetah/decorators/http_methods.dart';
+
+@Controller(version: "v1", path: "custom")
+class CustomController {
+  @Get('/hello-controller')
+  Future<void> sayHello(HttpRequest req, HttpResponse res,
+      [Map<String, String>? queryParams]) async {
+    res.write('Hello from controller!');
+    await res.close();
+  }
+
+  @Post('/submit')
+  Future<void> submitData(HttpRequest req, HttpResponse res,
+      [Map<String, String>? queryParams]) async {
+    res.write('Data submitted successfully!');
+    await res.close();
+  }
+}
 
 void main() async {
   final app = Cheetah();
+
+  app.use((req, res, next, [queryParams]) async {
+    print('Request: ${req.method} ${req.uri.path}');
+    await next();
+  });
+
+  app.addController(CustomController());
 
   app.use((req, res, next, [queryParams]) async {
     print('Request: ${req.method} ${req.uri.path}');

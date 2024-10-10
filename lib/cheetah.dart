@@ -20,6 +20,10 @@ class Cheetah {
     _requestHandler.addRoute('POST', path, handler);
   }
 
+  void addController(Object controller) {
+    _requestHandler.addController(controller);
+  }
+
   void setErrorHandler(Middleware handler) {
     _requestHandler.setErrorHandler(handler);
   }
